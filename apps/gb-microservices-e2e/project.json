@@ -1,0 +1,17 @@
+{
+  "name": "gb-microservices-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["gb-microservices"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/gb-microservices-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["gb-microservices:build"]
+    }
+  }
+}
