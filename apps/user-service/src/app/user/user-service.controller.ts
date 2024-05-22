@@ -1,14 +1,17 @@
-import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, Post, Put} from '@nestjs/common';
 
-import { UserServiceService } from './user-service.service';
+import {UserServiceService} from './user-service.service';
 import {CreateNewUserDto} from "../../../dto/create-new-user.dto";
-import {EventPattern} from "@nestjs/microservices";
+import {ClientProxy, EventPattern, MessagePattern} from "@nestjs/microservices";
 import {UpdateUserDto} from "../../../dto/update-user.dto";
-import {assertWorkspaceValidity} from "nx/src/utils/assert-workspace-validity";
 
 @Controller()
 export class UserServiceController {
-  constructor(private readonly userService: UserServiceService) {}
+  constructor(
+    private readonly userService: UserServiceService,
+    @Inject('USER_SERVICE') private readonly client: ClientProxy,
+    @Inject('ANALYTICS_SERVICE') private readonly clientAnalytics: ClientProxy
+  ) {}
 
   @Get()
   getData() {
@@ -49,6 +52,12 @@ export class UserServiceController {
   async handleUserCreated(data: any) {
     const { email } = data;
     await this.userService.sendMail(email);
+  }
+
+  @MessagePattern('analytics_user')
+  async getStats() {
+    const allUsers = await this.userService.getAllUsers();
+    this.clientAnalytics.emit('analytics_user_data', allUsers)
   }
 
 }

@@ -7,6 +7,7 @@ import {Repository} from "typeorm";
 import {ClientProxy, EventPattern} from "@nestjs/microservices";
 import {UpdateUserDto} from "../../../dto/update-user.dto";
 import { createTransport } from 'nodemailer';
+import {MailerService} from "@nestjs-modules/mailer";
 
 @Injectable()
 export class UserServiceService {
@@ -14,30 +15,32 @@ export class UserServiceService {
   @InjectRepository(UserEntity)
   private UserRepository: Repository<UserEntity>;
 
-  constructor(@Inject('USER_SERVICE') private readonly client: ClientProxy) {}
+  constructor(
+    @Inject('USER_SERVICE') private readonly client: ClientProxy,
+    @Inject('ANALYTICS_SERVICE') private readonly clientAnalytics: ClientProxy,
+    private readonly mailService: MailerService
+  ) {}
   getData(): { message: string } {
     return { message: 'Hello API' };
   }
 
   async sendMail(email: string) {
-  //   const transporter = createTransport({
-  //
-  //
-  //   });
-  //   await transporter.sendMail({
-  //     from: 'test@email.com',
-  //     to: email,
-  //     subject: 'Welcome to our platform!',
-  //     text: 'Hello, welcome to our platform!',
-  //   });
-  // }
+    const message = `Successes!`;
+
+    await this.mailService.sendMail({
+      from: 'Mykyta <mykyta@gmail.com>',
+      to: 'krokodile408@gmail.com',
+      subject: `Mail`,
+      text: message,
+    });
     console.log(`email was send to ${email}`)
   }
 
 
 
   async getAllUsers() {
-    return this.UserRepository.find();
+    const allUsers =  this.UserRepository.find();
+    return allUsers;
   }
 
   async getUserById(id) {

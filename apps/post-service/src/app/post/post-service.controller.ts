@@ -3,6 +3,7 @@ import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, P
 import { PostServiceService } from './post-service.service';
 import {CreateNewPostDto} from "../../../dto/create-new-post.dto";
 import {UpdatePostDto} from "../../../dto/update-post.dto";
+import {EventPattern} from "@nestjs/microservices";
 
 @Controller()
 export class PostServiceController {
@@ -45,6 +46,11 @@ export class PostServiceController {
 
   @Get('getAllPosts')
   async getAlPosts() {
+    return await this.postService.getAllPosts();
+  }
+
+  @EventPattern('analytics_request')
+  async getStats() {
     return await this.postService.getAllPosts();
   }
 

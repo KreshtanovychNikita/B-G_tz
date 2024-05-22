@@ -1,15 +1,25 @@
 import { Module } from '@nestjs/common';
 
-import { UserServiceController } from './user-service.controller';
-import { UserServiceService } from './user-service.service';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {UserEntity} from "./entities/user.entity";
+import { AnalystServiceController } from './analyst-service.controller';
+import { AnalystServiceService } from './analyst-service.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { RedisModule } from 'nestjs-redis';
 import {ClientsModule, Transport} from "@nestjs/microservices";
-import {MailerModule} from "@nestjs-modules/mailer";
+import {CacheModule} from "@nestjs/cache-manager";
+import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    CacheModule.register({
+      max: 100,
+      ttl: 0,
+      isGlobal: true,
+      store: redisStore,
+      host: '172.17.0.3',
+      port: 6379
+
+    }),
+    ScheduleModule.forRoot(),
     ClientsModule.register([
       {
         name: 'USER_SERVICE',
@@ -34,17 +44,9 @@ import {MailerModule} from "@nestjs-modules/mailer";
         },
       }
     ]),
-    MailerModule.forRoot({
-      transport: {
-        host: "sandbox.smtp.mailtrap.io",
-        auth: {
-          user: "1916502ace1e04",
-          pass: "d954b3fd935139",
-        },
-      },
-    }),
+
   ],
-  controllers: [UserServiceController],
-  providers: [UserServiceService],
+  controllers: [AnalystServiceController],
+  providers: [AnalystServiceService],
 })
-export class UserServiceModule {}
+export class AnalystServiceModule {}

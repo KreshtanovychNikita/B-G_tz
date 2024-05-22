@@ -1,15 +1,13 @@
 {
-  "name": "@my-microservices/source",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "user-service",
+  "version": "1.0.0",
   "scripts": {
-    "start": "node dist/apps/user-service/src/main.js",
     "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/apps/user-service/src/main.js",
     "start:dev": "nest start --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" --fix"
   },
-  "private": true,
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/cache-manager": "^2.2.2",

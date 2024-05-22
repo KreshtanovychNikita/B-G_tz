@@ -21,6 +21,17 @@ import {PostEntity} from "./entities/post.entity";
           },
         },
       },
+      {
+        name: 'ANALYTICS_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://localhost:5672'],
+          queue: 'analytics_service',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      }
     ]),
   ],
   controllers: [PostServiceController],

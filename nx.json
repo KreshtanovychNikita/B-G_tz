@@ -38,7 +38,8 @@
       "exclude": [
         "apps/gb-microservices-e2e/**/*",
         "apps/user-service-e2e/**/*",
-        "apps/post-service-e2e/**/*"
+        "apps/post-service-e2e/**/*",
+        "apps/analyst-service-e2e/**/*"
       ]
     }
   ],

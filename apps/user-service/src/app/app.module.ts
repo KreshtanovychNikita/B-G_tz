@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),  // Додаємо ConfigModule для роботи з env змінними
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
