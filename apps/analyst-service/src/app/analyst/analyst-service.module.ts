@@ -3,7 +3,6 @@ import { Module } from '@nestjs/common';
 import { AnalystServiceController } from './analyst-service.controller';
 import { AnalystServiceService } from './analyst-service.service';
 import { ScheduleModule } from '@nestjs/schedule';
-import { RedisModule } from 'nestjs-redis';
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {CacheModule} from "@nestjs/cache-manager";
 import * as redisStore from 'cache-manager-redis-store';

@@ -4,9 +4,8 @@ import * as bcrypt from 'bcrypt';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "./entities/user.entity";
 import {Repository} from "typeorm";
-import {ClientProxy, EventPattern} from "@nestjs/microservices";
+import {ClientProxy} from "@nestjs/microservices";
 import {UpdateUserDto} from "../../../dto/update-user.dto";
-import { createTransport } from 'nodemailer';
 import {MailerService} from "@nestjs-modules/mailer";
 
 @Injectable()

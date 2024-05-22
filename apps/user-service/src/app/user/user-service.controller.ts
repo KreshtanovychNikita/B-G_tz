@@ -54,10 +54,10 @@ export class UserServiceController {
     await this.userService.sendMail(email);
   }
 
-  @MessagePattern('analytics_user')
-  async getStats() {
-    const allUsers = await this.userService.getAllUsers();
-    this.clientAnalytics.emit('analytics_user_data', allUsers)
-  }
+  // @MessagePattern('analytics_user')
+  // async getStats() {
+  //   const allUsers = await this.userService.getAllUsers();
+  //   this.clientAnalytics.emit('analytics_user_data', allUsers)
+  // }
 
 }
