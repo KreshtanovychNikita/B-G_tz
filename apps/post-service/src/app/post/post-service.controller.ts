@@ -1,39 +1,51 @@
-import {Controller, Get, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put} from '@nestjs/common';
 
 import { PostServiceService } from './post-service.service';
+import {CreateNewPostDto} from "../../../dto/create-new-post.dto";
+import {UpdatePostDto} from "../../../dto/update-post.dto";
 
 @Controller()
 export class PostServiceController {
-  constructor(private readonly appService: PostServiceService) {}
+  constructor(private readonly postService: PostServiceService) {}
 
   @Get('posts')
   getData() {
-    return this.appService.getData();
+    return this.postService.getData();
   }
 
-  @Post('createNewUser')
-  async createNewUser() {
-    return true;
+  @Post('createNewPost')
+  async createNewPost(@Body() createNewPostDto: CreateNewPostDto) {
+    try {
+      return await this.postService.createNewPost(createNewPostDto);
+    } catch (e) {
+      throw new HttpException('POst creation failed', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  @Post()
-  async deleteNewUser() {
-    return true;
+  @Delete('deletePost/:id')
+  async remove(@Param('id') id: number) {
+    return await this.postService.deletePost(id);
   }
 
-  @Put()
-  async editUserById() {
-    return true;
+
+  @Put('updatePost/:id')
+  async update(@Param('id') id: number, @Body() updatePostDto: UpdatePostDto) {
+    return await this.postService.updatePost(id, updatePostDto);
   }
 
-  @Get()
-  async getUserById() {
-    return true;
+  @Get('getPost/:id')
+  findOne(@Param('id') id: number) {
+    return this.postService.getPostsById(id);
   }
 
-  @Get()
-  async getAllUsers() {
-    return true;
+  @Get('getAllPostsByUserId/:user_id')
+  async getAllPostsByUserId(@Param('user_id') userId: number) {
+    return await this.postService.getAllPostByUserId(userId);
+  }
+
+  @Get('getAllPosts')
+  async getAlPosts() {
+    return await this.postService.getAllPosts();
   }
 
 }

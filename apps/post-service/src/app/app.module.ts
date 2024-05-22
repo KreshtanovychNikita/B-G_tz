@@ -4,10 +4,11 @@ import process from "process";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostServiceModule } from './post/post-service.module';
 import { PostEntity } from './post/entities/post.entity';
-import {ClientsModule, Transport} from "@nestjs/microservices";
+import {ConfigModule} from "@nestjs/config";
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
@@ -20,7 +21,6 @@ import {ClientsModule, Transport} from "@nestjs/microservices";
         synchronize: true,
       }),
     }),
-    TypeOrmModule.forFeature([PostEntity]),
     PostServiceModule,
   ],
 })

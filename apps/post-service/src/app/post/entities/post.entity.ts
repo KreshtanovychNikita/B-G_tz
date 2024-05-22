@@ -1,8 +1,8 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity({ name: 'user-entity' })
-@Index('idx_id_user', ['id'])
+@Entity({ name: 'post-entity' })
+@Index('idx_id_post', ['id'])
 export class PostEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,7 +11,10 @@ export class PostEntity {
   text: string;
 
   @Column()
-  email: string;
+  user_id: number;
+
+  @Column()
+  name: string;
 
   @CreateDateColumn({
     name: 'created_at',

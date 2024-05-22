@@ -3,9 +3,12 @@ import { Module } from '@nestjs/common';
 import { PostServiceController } from './post-service.controller';
 import { PostServiceService } from './post-service.service';
 import {ClientsModule, Transport} from "@nestjs/microservices";
+import {TypeOrmModule} from "@nestjs/typeorm";
+import {PostEntity} from "./entities/post.entity";
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([PostEntity]),
     ClientsModule.register([
       {
         name: 'POST_SERVICE',
